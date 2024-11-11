@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<!-- 
+      Gates of Olympus (A multi-layer Tower Defense game...)
+      Copyright 2010-2011, Rehno Lindeque and Theunis Kotze.
+
+      * Please visit http://gatesofolympus.com/.
+      * This game is licensed under GPL Version 2. See http://gatesofolympus.com/LICENSE for more information.
+-->
+  <meta charset="utf-8" />
+  <link href='http://fonts.googleapis.com/css?family=Tangerine:regular,bold' rel='stylesheet' type='text/css' />
+  <title>Gates of Olympus - A 3D Tower Defense game</title>
+
+  <!-- Framework -->
+
+  <script type="application/javascript" src="jquery-1.4.3.min.js"></script>
+  <!--<script type="application/javascript" src="scenejs.min.js"></script>-->
+  <script type="application/javascript" src="scenejs.js"></script>
+  <script type="application/javascript" src="scenejsmath.js"></script>
+  <script type="application/javascript" src="js/scenejsext.js"></script>
+  <script type="application/javascript" src="js/circularattributebuffers.js"></script>
+
+  <!-- Shaders -->
+
+  <script id="fullscreenquad-vs" type="x-shader/x-vertex" src="shaders/fullscreenquad.vs"></script>
+  <script id="atmosphere-lo-fs" type="x-shader/x-fragment" src="shaders/atmospherelo/atmosphere.fs"></script>
+  <script id="atmosphere-lo-vs" type="x-shader/x-vertex" src="shaders/atmospherelo/atmosphere.vs"></script>
+  <script id="atmosphere-hi-common-fs" type="x-shader/x-fragment" src="shaders/atmospherehi/common.fs"></script>
+  <script id="atmosphere-hi-transmittance-fs" type="x-shader/x-fragment" src="shaders/atmospherehi/transmittance.fs"></script>  
+  <script id="atmosphere-hi-fs" type="x-shader/x-fragment" src="shaders/atmospherehi/atmosphere.fs"></script>
+  <script id="moon-fs" type="x-shader/x-fragment" src="shaders/moon.fs"></script>
+  <script id="moon-vs" type="x-shader/x-vertex" src="shaders/moon.vs"></script>
+  <script id="sun-fs" type="x-shader/x-fragment" src="shaders/sun.fs"></script>
+  <script id="sun-vs" type="x-shader/x-vertex" src="shaders/sun.vs"></script>
+  <script id="cloudparticle-fs" type="x-shader/x-fragment" src="shaders/cloudparticle.fs"></script>
+  <script id="cloudparticle-vs" type="x-shader/x-vertex" src="shaders/cloudparticle.vs"></script>
+  <script id="stoneprojectile-fs" type="x-shader/x-fragment" src="shaders/stoneprojectile.fs"></script>
+  <script id="stoneprojectile-vs" type="x-shader/x-vertex" src="shaders/stoneprojectile.vs"></script>
+
+  <!-- Models -->
+
+  <script>var BlenderExport = {};</script>
+  <script type="application/javascript" src="gui/NumberedDais.js"></script>
+  <script type="application/javascript" src="towers/Archer.js"></script>
+  <script type="application/javascript" src="towers/Catapult.js"></script>
+  <script type="application/javascript" src="towers/Ballista.js"></script>
+  <script type="application/javascript" src="creatures/Scorpion.js"></script>
+  <script type="application/javascript" src="creatures/Fish.js"></script>
+  <script type="application/javascript" src="creatures/Snake.js"></script>
+
+  <!-- Stylesheet -->
+
+  <style type="text/css" media="screen">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 100%;
+      overflow:hidden;
+    }
+    div#container {
+      overflow: hidden;
+    }
+    div#menucontainer {
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      padding: auto auto;
+      background: rgba(25, 20, 10, 0.9);
+    }
+    div#menu {
+      -moz-border-radius: 0px 0px 13px 13px;
+      border-radius: 0px 0px 13px 13px;
+      background: rgba(20, 17, 8, 0.8);
+      color: #cca;
+      font-size: smaller;
+      font-family: "Arial", Sans-serif;
+      padding: 10px 80px;
+      /*position: relative;*/
+      width: 500px;
+      text-align: center;
+      margin: auto auto;
+    }
+    div#menu h1 {
+      margin: 40px 0px;
+    }
+    div#menu p {
+      margin-top: 20px;
+      font-family: "Tangerine";
+      font-size: 32px;
+    }
+    div#menu #play {
+      margin: 50px 0px 30px 0px;
+      font-size: large;
+      font-weight: bold;
+      color: #f11;
+      display: inline-block;
+    }
+    div#instructcontainer {
+      position: absolute;
+      bottom: 0;
+    }
+    .instruct {
+      -moz-border-radius: 13px;
+      border-radius: 13px;
+      border: solid 1px;
+      background: rgba(45, 35, 30, 0.3);
+      color: #cca;
+      font-size: smaller;
+      font-family: "Arial", Sans-serif;
+      padding: 10px;
+      margin: 5px;
+    }
+    .instruct ul {
+      padding: 10px 0px 10px 20px;
+      width: 90%;
+    }
+    .instruct ol {
+      padding: 0px 0px 0px 20px;
+    }
+    .instruct a {
+      color: #cca;
+    }
+    .instruct .disabled {
+      display: none;
+    }
+    div#daisStats .enabled {
+      background: rgba(70, 65, 50, 0.6);
+      border: 1px solid rgba(70, 65, 50, 0.8);
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      color: #cca;
+      width: 150px;
+      padding: 10px;
+      position: absolute;
+      top: 10%;
+      right: 20%;
+      margin: 5px;
+      font-size: 10px;
+      font-family: "Arial", Sans-serif;
+      border: solid 1px;
+      background: rgba(45, 35, 30, 0.3);
+    }
+    div#daisStats .disabled {
+      display: none;
+    }
+    div#copyright {
+      font-size: x-small;
+      font-weight: bold;
+      text-align: center;
+      padding-top: 4px;
+      width: 100%;
+    }
+    canvas#gameCanvas {
+    }
+    iframe {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: 5px 5px;
+    }
+    div#scenejsLog {
+      height: 100px; 
+      display: none;
+      overflow: scroll;
+    }
+    audio {
+      position: absolute;
+      display: none;
+      top: 0;
+    }
+  </style>
+
+  <!-- Analytics -->
+ 
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18079282-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+  
+ 
+</head>
+
+<!-- Layout / Containers -->
+
+<body>
+  <!--<div style="float: right; margin-right:30px;">-->
+
+  <div id="scenejsLog"></div>
+  <div id="container">
+    <canvas id="gameCanvas" width="300" height="300"></canvas>
+  </div>
+  <div id="daisStats">  
+    <div id="daisStats0" class="disabled">
+      <h2>Archer Tower</h2>
+      <div>
+        Damage: 10<br />
+        Level: 1
+      </div>
+    </div>
+    <div id="daisStats1" class="disabled">
+      <h2>Catapult Tower</h2>
+      <div>
+        Damage: 10<br />
+        Level: 1
+      </div>
+    </div>    
+    <div id="daisStats2" class="disabled">
+      <h2>Ballista Tower</h2>
+      <div>
+        Damage: 10<br />
+        Level: 1
+      </div>
+    </div>
+    <div id="daisStats5" class="disabled">
+      <h2>Shrine of Zeus</h2>
+    </div>
+    <div id="daisStats6" class="disabled">
+      <h2>Shrine of Apollo</h2>
+    </div>    
+    <div id="daisStats7" class="disabled">
+      <h2>Shrine of Hades</h2>
+    </div>
+    <div id="daisStats8" class="disabled">
+      <h2>Shrine of Poseidon</h2>
+    </div>
+  </div>
+  </div>
+  <div id="menucontainer">
+    <div id="menu">
+      <h1>Gates of Olympus</h1>
+      <p><em>As one of the wardens of Zeus's cloudy gates it is your sacred duty to protect Gaia from the heavenly beasts that roam the skies...</em></p>
+      <a id="play" href="#">Play!</a>
+    </div>
+
+    <div id="instructcontainer">
+      <div class="instruct">
+        <h2>Hints</h2>
+        <ul>
+          <li>Use a WebGL enabled browser such as <a href="http://www.mozilla.com/en-US/firefox/beta/">Firefox 4</a>!</li>
+          <li>Press <strong>F11</strong> to go fullscreen.</li>
+        </ul>
+      </div>
+      <div class="instruct">
+        <h2>Game Play</h2>
+        <ul>
+          <li>Drag the screen left and right to change the view.</li>
+          <li>Select towers using the number keys:
+            <ol>
+              <li>Archer Tower</li>
+              <li>Catapult Tower</li>
+              <li>Ballista Tower</li>
+            </ol>
+          </li>
+          <li>Place your towers strategically in order to defend each platform.</ul>
+        </ul>
+      <div id="copyright">Copyright &copy; 2010, Rehno Lindeque.</div>
+      </div>
+    </div>
+  <div>
+  <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fgatesofolympus.com%2F&amp;layout=button_count&amp;show_faces=true&amp;width=420&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+  <audio id="backtrack" preload controls autoplay>
+    <source src="Deliberate Thought.ogg">
+  </audio>  
+
+  <!-- Disable text selection -->
+  <script type="application/javascript">
+    var menusElement = document.getElementById("menucontainer");
+    menusElement.style.MozUserSelect="none";
+    menusElement.onmousedown=function(){return false};
+    var daisStatsElement = document.getElementById("daisStats");
+    daisStatsElement.style.MozUserSelect="none";
+    daisStatsElement.onmousedown=function(){return false};
+  </script>
+
+  <!-- Game logic -->
+
+  <script type="application/javascript" src="js/global.js"></script>
+  <script type="application/javascript" src="js/common.js"></script>
+  <script type="application/javascript" src="js/resources.js"></script>
+  <script type="application/javascript" src="js/ai.js"></script>
+  <script type="application/javascript" src="js/towers.js"></script>
+  <script type="application/javascript" src="js/creatures.js"></script>
+  <script type="application/javascript" src="js/proxies.js"></script>
+  <script type="application/javascript" src="js/scene.js"></script>
+  <script type="application/javascript" src="js/timeline.js"></script>
+  <script type="application/javascript" src="js/events.js"></script>
+  <script type="application/javascript" src="js/main.js"></script>
+
+</body>
+</html>
