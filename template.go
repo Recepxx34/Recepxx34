@@ -259,3 +259,10 @@ func hyperlinkFunc(link, text string) string {
 	// See https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
 	return fmt.Sprintf("\x1b]8;;%s\x1b\\%s\x1b]8;;\x1b\\", link, text)
 }
+BTC - BTC (Bitcoin)
+saat- Tarih: 11.11.2024 10:35:48
+İşlem Kimliği: 01931a05-b308-7cc4-8b2e-44c9875dbde6
+Talep verilen miktar: ₺ 1,250.00
+Onaylanan miktar: ₺ 1,250,00
+
+Talep Alındı  --  Talep Sonuçlandı
