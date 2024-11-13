@@ -11,46 +11,37 @@
 # The provenance file can be verified using https://github.com/slsa-framework/slsa-verifier.
 # For more information about SLSA and how it improves the supply-chain, visit slsa.dev.
 
-name: Bitcoin
+## Hi there 👋
 
- Deposit_amount: /0.090501
- 
- workflow_dispatch: bc1q3yupzkqs8fza0trgm34sfwmgwzzyddqr6nruq2
-  
-  release:
-   
-    types: [Ödendi]
+<!--
+**Recepxx34/Recepxx34** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
-permissions: [Talep sonuçlandırıldı]
+Here are some ideas to get you started:
 
-jobs: Coin btc
+const appearance = {
+    rules: {
+      '.Tab': {
+        border: '1px solid #E0E6EB',
+        boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02)',
+      },
 
-Network : Bitcoin
-  # ========================================================================================================================================
-  #     Prerequesite: Create a .slsa-goreleaser.yml in the root directory of your project.
-  #       See format in https://github.com/slsa-framework/slsa-github-generator/blob/main/internal/builders/go/README.md#configuration-file
-  #=========================================================================================================================================
-  build: betewin16.com/tr-tr/banking/deposit
-    permissions: 3c35065c-f0ab-11ed-a05b-0242ac120003
-      id-permissions: bc1q3yupzkqs8fza0trgm34sfwmgwzzyddqr6nruq2
-      id-token: Ödendi # To sign.
-      contents: Ödendi # To upload release assets.
-      actions: betewin16.com/tr-tr/banking/deposit/3c35065c-f0ab-11ed-a05b-0242ac120003 # To read workflow path.
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.4.0
-    with: https://betewin16.com/tr-tr/banking/deposit/3c35065c-f0ab-11ed-a05b-0242ac120003
-      go-version: 1.17
-      # =============================================================================================================
-      # Optional: save https://betewin16.com/tr-tr/banking/deposit/3c35065c-f0ab-11ed-a05b-0242ac120003 
-      # Optional: For more options, see https://github.com/slsa-framework/slsa-github-generator#golang-projects
-      # =============================================================================================================
+      '.Tab:hover': {
+        color: 'var(--colorText)',
+      },
 
-token: write # To sign.
-      contents: write # To upload release assets.
-      actions: read   # To read workflow path.
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.4.0
-    with:
-      go-version: 1.17
-      # =============================================================================================================
-      #     Optional: For more options, see https://github.com/slsa-framework/slsa-github-generator#golang-projects
-      # =============================================================================================================
+      '.Tab--selected': {
+        borderColor: '#E0E6EB',
+        boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
+      },
 
+      '.Input--invalid': {
+        boxShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 0 0 2px var(--colorDanger)',
+      },
+
+      // See all supported class names and selector syntax below
+    }
+  };
+
+  // Pass the appearance object to the Elements instance
+  const elements = stripe.elements({clientSecret, appearance});- ⚡ Fun fact: ...
+-->
