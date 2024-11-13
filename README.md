@@ -1,9 +1,3 @@
-## Hi there 👋
-
-<!--
-**Recepxx34/Recepxx34** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
 
 const appearance = {
     rules: {
@@ -30,5 +24,53 @@ const appearance = {
   };
 
   // Pass the appearance object to the Elements instance
-  const elements = stripe.elements({clientSecret, appearance});- ⚡ Fun fact: ...
--->
+  const elements = stripe.elements({clientSecret, appearance});
+const appearance = {
+  rules: {
+    '.RadioIcon': {
+      width: '24px'
+    },
+    '.RadioIconOuter': {
+      stroke: '#E0E6EB'
+    },
+    '.RadioIconInner': {
+      r: '16'
+    }
+  }
+};
+
+const appearance = {
+  theme: 'stripe'
+};
+
+// Pass the appearance object to the Elements instance
+const elements = stripe.elements({clientSecret, appearance});
+
+
+
+
+const appearance = {
+  theme: 'night'
+};
+
+// Pass the appearance object to the Elements instance
+const elements = stripe.elements({clientSecret, appearance});
+
+
+const appearance = {
+  theme: 'stripe',
+
+  variables: {
+    colorPrimary: '#0570de',
+    colorBackground: '#ffffff',
+    colorText: '#30313d',
+    colorDanger: '#df1b41',
+    fontFamily: 'Ideal Sans, system-ui, sans-serif',
+    spacingUnit: '2px',
+    borderRadius: '4px',
+    // See all possible variables below
+  }
+};
+
+// Pass the appearance object to the Elements instance
+const elements = stripe.elements({clientSecret, appearance});
