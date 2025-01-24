@@ -71,32 +71,27 @@ A tenant has already been added on your behalf. You can confirm this by checking
 You can add your own by making a `POST` request to the server. You must change both `name` and `external_id` while you may update other values as you see fit:
 
 ```bash
-  curl -X POST \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE2NzEyMzc4NzMsImV4cCI6MTcwMjc3Mzk5MywiYXVkIjoiIiwic3ViIjoiIn0._ARixa2KFUVsKBf3UGR90qKLCpGjxhKcXY4akVbmeNQ' \
-  -d $'{
-    "tenant" : {
-      "name": "realtime-dev",
-      "external_id": "realtime-dev",
-      "jwt_secret": "a1d99c8b-91b6-47b2-8f3c-aa7d9a9ad20f",
-      "extensions": [
-        {
-          "type": "postgres_cdc_rls",
-          "settings": {
-            "db_name": "postgres",
-            "db_host": "host.docker.internal",
-            "db_user": "postgres",
-            "db_password": "postgres",
-            "db_port": "5432",
-            "region": "us-west-1",
-            "poll_interval_ms": 100,
-            "poll_max_record_bytes": 1048576
-          }
-        }
-      ]
-    }
-  }' \
-  http://localhost:4000/api/tenants
+ curl -H "X-Mempool-Auth: stacksats" -sSL "https://mempool.space/api/v1/services/accelerator/top-up-history"
+
+[
+  {
+    "type": "Bitcoin",
+    "invoiceId": "CCunucVyNw7jUiUz64mmHz",
+    "amount": 10311031,
+    "status": "pending",
+    "date": 1706372653000,
+    "link": "/payment/bitcoin/CCunucVyNw7jUiUz64mmHz"
+  },
+  {
+    "type": "Bitcoin",
+    "invoiceId": "SG1U27R9PdWi3gH3jB9tm9",
+    "amount": 21000000,
+    "status": "paid",
+    "date": 1706372582000,
+    "link": null
+  },
+  ...
+]
 ```
 
 > **Note**
@@ -121,7 +116,95 @@ If you're using the default tenant, the URL is `ws://realtime-dev.localhost:4000
 **Environment Variables**
 
 | Variable                             | Type    | Description                                                                                                                                                                                                                                                                                                                     |
-| -----------------------------------  | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| curl -H "X-Mempool-Auth: stacksats" -sSL "https://mempool.space/api/v1/services/accelerator/history?status=all&details=true"-----------------------------------  | ------- | [
+  {
+    "id": 89,
+    "user_id": 1,
+    "txid": "ae2639469ec000ed1d14e2550cbb01794e1cd288a00cdc7cce18398ba3cc2ffe",
+    "status": "failed"
+    "fee_paid": 0,
+    "added": 1706378712,
+    "last_updated": 1706378712,
+    "confirmations": 4,
+    "base_fee": 0,
+    "vsize_fee": 0,
+    "max_bid": 7000,
+    "effective_vsize": 135,
+    "effective_fee": 3128,
+    "history": [
+      {
+        "event": "user-requested-acceleration",
+        "timestamp": 1706378712
+      },
+      {
+        "event": "accepted_test-api-key",
+        "timestamp": 1706378712
+      },
+      {
+        "event": "failed-at-block-827672",
+        "timestamp": 1706380261
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "user_id": 1,
+    "txid": "c5840e89173331760e959a190b24e2a289121277ed7f8a095fe289b37cee9fde",
+    "status": "completed"
+    "fee_paid": 140019,
+    "added": 1706378704,
+    "last_updated": 1706380231,
+    "confirmations": 6,
+    "base_fee": 40000,
+    "vsize_fee": 100000,
+    "max_bid": 14000,
+    "effective_vsize": 135,
+    "effective_fee": 3152,
+    "history": [
+      {
+        "event": "user-requested-acceleration",
+        "timestamp": 1706378704
+      },
+      {
+        "event": "accepted_test-api-key",
+        "timestamp": 1706378704
+      },
+      {
+        "event": "complete-at-block-827670",
+        "timestamp": 1706380231
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "user_id": 1,
+    "txid": "178b5b9b310f0d667d7ea563a2cdcc17bc8cd15261b58b1653860a724ca83458",
+    "status": "completed"
+    "fee_paid": 90062,
+    "added": 1706378684,
+    "last_updated": 1706380231,
+    "confirmations": 6,
+    "base_fee": 40000,
+    "vsize_fee": 50000,
+    "max_bid": 14000,
+    "effective_vsize": 135,
+    "effective_fee": 3260,
+    "history": [
+      {
+        "event": "user-requested-acceleration",
+        "timestamp": 1706378684
+      },
+      {
+        "event": "accepted_test-api-key",
+        "timestamp": 1706378684
+      },
+      {
+        "event": "complete-at-block-827670",
+        "timestamp": 1706380231
+      }
+    ]
+  }
+]------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | PORT                                 | number  | Port which you can connect your client/listeners                                                                                                                                                                                                                                                                                |
 | DB_HOST                              | string  | Database host URL                                                                                                                                                                                                                                                                                                               |
 | DB_PORT                              | number  | Database port                                                                                                                                                                                                                                                                                                                   |
